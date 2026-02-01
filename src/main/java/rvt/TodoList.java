@@ -32,13 +32,19 @@ public class TodoList {
     }
 
     public void add(String task) {
-        this.todo.add((getListId() + 1) + "," + task);
+        String input = task.trim();
 
-        try (BufferedWriter wr = new BufferedWriter(new FileWriter("data/todo.csv", true))) {
-            wr.write(getListId() + "," + task);
-            wr.newLine();
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
+        if (checkEventString(input) == true) {
+            this.todo.add((getListId() + 1) + "," + input);
+
+            try (BufferedWriter wr = new BufferedWriter(new FileWriter("data/todo.csv", true))) {
+                wr.write(getListId() + "," + input);
+                wr.newLine();
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+        } else {
+            System.out.println("Nederīga ievade!");
         }
     }
 
@@ -51,8 +57,8 @@ public class TodoList {
     private boolean updateFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/todo.csv"))) {
             for (int i = 0; i < todo.size(); i++) {
-            bw.write(todo.get(i));
-            bw.newLine();
+                bw.write(todo.get(i));
+                bw.newLine();
             }
             return true;
         } catch (IOException e) {
@@ -63,7 +69,14 @@ public class TodoList {
     public void remove(int id) {
         this.todo.remove(id);
         updateFile();
+    }
 
-
+    public boolean checkEventString(String value) {
+        final String regex = "^[a-zA-Z0-9 ]+$";
+        if (value.length() < 3) {
+            return false;
+        } else {
+            return value.matches(regex);
+        }
     }
 }
