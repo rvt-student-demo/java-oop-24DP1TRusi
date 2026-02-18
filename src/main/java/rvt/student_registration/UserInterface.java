@@ -1,59 +1,55 @@
 package rvt.student_registration;
 
-// import java.io.BufferedReader;
-// import java.io.FileReader;
-// import java.io.IOException;
-// import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
-    private Scanner scanner;
-    // private ArrayList<String> list;
+    private Scanner scanner = new Scanner(System.in);
+    final Register register;
+    final Remove remove;
+    final Show show;
+    final Requirements i;
+    final Edit edit;
 
-    public UserInterface( Scanner scan) {
-        this.scanner = scan;
-        // this.list = new ArrayList<>();
-        // loadFromFile();
-    
+    public UserInterface() {
+        this.register = new Register();
+        this.remove = new Remove();
+        this.show = new Show();
+        this.i = new Requirements();
+        this.edit = new Edit();
     }
 
     public void start() {
-        final Register register = new Register();
 
         while (true) {
             System.out.println("Izvēlies, ko gribi darīt. (register; show; remove; edit; exit)");
             System.out.println("Komanda: ");
             String teksts = scanner.nextLine();
-            
+
             if (teksts.equals("exit")) {
                 break;
 
             } else if (teksts.equals("register")) {
-                register.addStudent();
+                register.addStudent(scanner);
 
             } else if (teksts.equals("show")) {
-                // todo.print();
+                show.ShowStudents();
 
             } else if (teksts.equals("remove")) {
-                System.out.println("Kuru noņemt?");
-                // int num = Integer.valueOf(scanner.nextLine());
-                // todo.remove(num);
-            } else if (teksts.equals("edit")) {
-                System.out.println("Kuru rediģēt?");
+                System.out.println("Kuru noņemt? (ievadi personas kodu)");
+                String code = scanner.nextLine();
+                if (i.CheckCode(code)) {
+                    remove.removeStudent(code);
+                } else {
+                    System.out.println("Nepareizi ievadīts kods!");
+                }
 
+            } else if (teksts.equals("edit")) {
+                edit.editStudent(scanner);
+
+            } else {
+                System.out.println("Tāda komanda nepastāv!");
             }
 
         }
     }
-
-    // private void loadFromFile() {
-    //     try (BufferedReader br = new BufferedReader(new FileReader("data/todo.csv"))) {
-    //         String line;
-    //         while ((line = br.readLine()) != null) {
-    //             this.list.add(line);
-    //         }
-    //     } catch (IOException e) {
-    //         System.out.println("Error reading file.");
-    //     }
-    // }
 }
