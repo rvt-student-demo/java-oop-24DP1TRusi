@@ -1,12 +1,15 @@
 package rvt;
 
+import javax.swing.JFrame;
+
 public class App {
     public static void main(String[] args) {
-        IOU mattsIOU = new IOU();
-        mattsIOU.setSum("Arthur", 51.5);
-        mattsIOU.setSum("Michael", 30);
+        JFrame frame = new JFrame("Java grafika!!!");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1024,768);
 
-        System.out.println(mattsIOU.howMuchDoIOweTo("Arthur"));
-        System.out.println(mattsIOU.howMuchDoIOweTo("Michael"));
+        GrafikasPanelis grafika = new GrafikasPanelis();
+        frame.add(grafika);
+        frame.setVisible(true);
     }
 }
