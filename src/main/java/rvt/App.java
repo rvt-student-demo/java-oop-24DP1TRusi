@@ -6,7 +6,7 @@ public class App {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Java grafika!!!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1024,768);
+        frame.setSize(400,400);
 
         GrafikasPanelis grafika = new GrafikasPanelis();
         frame.add(grafika);
