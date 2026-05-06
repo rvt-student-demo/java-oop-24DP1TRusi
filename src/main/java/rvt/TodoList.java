@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TodoList {
-    private ArrayList<String> todo;
+    private ArrayList<String[]> todo;
     private final String filePath = "data/todo.csv";
 
     public TodoList() {
@@ -20,7 +20,7 @@ public class TodoList {
         try (BufferedReader br = new BufferedReader(new FileReader("data/todo.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                this.todo.add(line);
+                this.todo.add(line.split(","));
             }
         } catch (IOException e) {
             System.out.println("Error reading file.");
@@ -35,7 +35,8 @@ public class TodoList {
         String input = task.trim();
 
         if (checkEventString(input) == true) {
-            this.todo.add((getListId() + 1) + "," + input);
+            String toInput = (getListId() + 1) + "," + input;
+            this.todo.add(toInput.split(","));
 
             try (BufferedWriter wr = new BufferedWriter(new FileWriter("data/todo.csv", true))) {
                 wr.write(getListId() + "," + input);
