@@ -2,6 +2,10 @@ package rvt;
 
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 public class UserInterface {
     private TodoList todo;
     private Scanner scanner;
@@ -12,11 +16,15 @@ public class UserInterface {
     }
 
     public void start() {
+        JFrame frame = new JFrame("Java grafika!!!");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400);
+        frame.setVisible(true);
 
         while (true) {
             System.out.println("Command: ");
             String teksts = scanner.nextLine();
-            
+
             if (teksts.equals("stop")) {
                 break;
 
@@ -26,6 +34,14 @@ public class UserInterface {
 
             } else if (teksts.equals("list")) {
                 todo.print();
+
+                String[][] data = todo.getData();
+                String[] columnName = { "ID", "Task" };
+
+                JTable table = new JTable(data, columnName);
+                JScrollPane scrollpane = new JScrollPane(table);
+                frame.add(scrollpane);
+                frame.revalidate();
 
             } else if (teksts.equals("remove")) {
                 System.out.println("Which one is removed?");

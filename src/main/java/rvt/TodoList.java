@@ -51,14 +51,15 @@ public class TodoList {
 
     public void print() {
         for (int i = 1; i < todo.size(); i++) {
-            System.out.println(todo.get(i));
+            System.out.println(String.join(",", todo.get(i)));
         }
     }
 
     private boolean updateFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/todo.csv"))) {
             for (int i = 0; i < todo.size(); i++) {
-                bw.write(todo.get(i));
+                String line = String.join(",", todo.get(i));
+                bw.write(line);
                 bw.newLine();
             }
             return true;
@@ -79,5 +80,13 @@ public class TodoList {
         } else {
             return value.matches(regex);
         }
+    }
+
+    public String[][] getData() {
+        String[][] data = new String[todo.size() - 1][];
+        for (int i = 1; i < todo.size(); i++) {
+            data[i - 1] = todo.get(i).clone();
+        }
+        return data;
     }
 }
