@@ -16,9 +16,13 @@ public class UserInterface {
     }
 
     public void start() {
-        JFrame frame = new JFrame("Java grafika!!!");
+        JFrame frame = new JFrame("Todo list.");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 400);
+        
+        JTable table = todo.createTable();
+        JScrollPane scrollpane = new JScrollPane(table);
+        frame.add(scrollpane);
         frame.setVisible(true);
 
         while (true) {
@@ -31,24 +35,18 @@ public class UserInterface {
             } else if (teksts.equals("add")) {
                 System.out.println("To add: ");
                 this.todo.add(scanner.nextLine());
+                frame.repaint();
 
             } else if (teksts.equals("list")) {
                 todo.print();
-
-                String[][] data = todo.getData();
-                String[] columnName = { "ID", "Task" };
-
-                JTable table = new JTable(data, columnName);
-                JScrollPane scrollpane = new JScrollPane(table);
-                frame.add(scrollpane);
-                frame.revalidate();
+                frame.repaint();
 
             } else if (teksts.equals("remove")) {
                 System.out.println("Which one is removed?");
                 int num = Integer.valueOf(scanner.nextLine());
                 todo.remove(num);
+                frame.repaint();
             }
-
         }
     }
 }
