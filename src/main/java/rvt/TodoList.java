@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.plaf.DimensionUIResource;
 
 public class TodoList {
-    private static ArrayList<String[]> todo;
+    private ArrayList<String[]> todo;
     private final String filePath = "data/todo.csv";
 
     public TodoList() {
@@ -85,18 +85,15 @@ public class TodoList {
         }
     }
 
-    public static String[][] getData() {
+    public JTable createTable() {
         String[][] data = new String[todo.size() - 1][];
         for (int i = 1; i < todo.size(); i++) {
             data[i - 1] = todo.get(i).clone();
         }
-        return data;
-    }
 
-    public JTable createTable() {
-        String[][] data = TodoList.getData();
-        String[] columnName = { "ID", "Task"};
-        JTable table = new JTable(data, columnName);
+        String[][] datas = data;
+        String[] columnName = { "ID", "Task" };
+        JTable table = new JTable(datas, columnName);
 
         table.setPreferredScrollableViewportSize(new DimensionUIResource(500, 50));
         table.setFillsViewportHeight(true);
