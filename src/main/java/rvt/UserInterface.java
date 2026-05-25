@@ -1,7 +1,10 @@
 package rvt;
 
 import java.util.Scanner;
+import java.awt.Dimension;
+// import java.awt.event.ActionEvent;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,52 +23,60 @@ public class UserInterface {
 
     public void start() {
         JFrame frame = new JFrame("Todo list.");
-        JPanel p = new JPanel();
-        JTextField field = new JTextField(10);
-        JButton button = new JButton("Add");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-
         JTable table = todo.createTable();
         JScrollPane scrollpane = new JScrollPane(table);
+        scrollpane.setPreferredSize(new Dimension(1000, 400));
+
+        JPanel p = new JPanel();
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        JTextField field = new JTextField(10);
+        JButton button = new JButton("Add");
+        JButton remButton = new JButton("Remove");
         p.add(scrollpane);
-        p.add(field);
-        p.add(button);
+        JPanel inputPanel = new JPanel();
+        inputPanel.add(field);
+        inputPanel.add(button);
+        inputPanel.add(remButton);
+        p.add(inputPanel);
         frame.add(p);
+
+        frame.setSize(400, 400);
         frame.setVisible(true);
 
-        while (true) {
-            System.out.println("Command: ");
-            String teksts = scanner.nextLine();
+        // while (true) {
+        //     System.out.println("Command: ");
+        //     String teksts = scanner.nextLine();
 
-            // if (teksts.equals("add")) {
-            // System.out.println("To add: ");
-            // this.todo.add(scanner.nextLine());
-            // // button.addActionListener(new ActionListener() {
+        //     if (teksts.equals("add")) {
+        //     System.out.println("To add: ");
+        //     this.todo.add(scanner.nextLine());
+            // button.addActionListener(new ActionListener() {
             //     public void actionPerformed(ActionEvent e) {
             //         System.out.println("Button clicked");
             //     }
-            // });
+        //     });
 
-            table = todo.createTable();
-            scrollpane = new JScrollPane(table);
-            p.add(scrollpane);
-            frame.add(p);
-            frame.setVisible(true);
+        //     table = todo.createTable();
+        //     scrollpane = new JScrollPane(table);
+        //     p.add(scrollpane);
+        //     frame.add(p);
+        //     frame.setVisible(true);
 
-            if (teksts.equals("list")) {
-                todo.print();
+        //     if (teksts.equals("list")) {
+        //         todo.print();
+        //     }
 
-            } else if (teksts.equals("remove")) {
-                System.out.println("Which one is removed?");
-                int num = Integer.valueOf(scanner.nextLine());
-                todo.remove(num);
+        //     if (teksts.equals("remove")) {
+        //         System.out.println("Which one is removed?");
+        //         int num = Integer.valueOf(scanner.nextLine());
+        //         todo.remove(num);
 
-                table = todo.createTable();
-                scrollpane = new JScrollPane(table);
-                frame.add(scrollpane);
-                frame.setVisible(true);
-            }
-        }
+        //         table = todo.createTable();
+        //         scrollpane = new JScrollPane(table);
+        //         frame.add(scrollpane);
+        //         frame.setVisible(true);
+        //     }
+        // }
     }
 }
