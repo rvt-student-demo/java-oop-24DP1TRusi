@@ -5,12 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-// import java.sql.Connection;
-// import java.sql.DriverManager;
-// import java.sql.PreparedStatement;
-// import java.sql.ResultSet;
-// import java.sql.SQLException;
-// import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.plaf.DimensionUIResource;
@@ -55,32 +49,8 @@ public class TodoList {
         } else {
             System.out.println("Nederīga ievade!");
         }
-
-        // try{
-        //     Connection conn = DriverManager.getConnection("jdbc:sqlite:todo.db");
-        //     Statement stmt = conn.createStatement();
-
-            
-        //     stmt.executeUpdate("INSERT INTO todo(task) VALUES('Make an art painting')");
-        // }catch(SQLException e){
-        //     System.out.println(e.getMessage());
-        // }
     }
 
-    // public void findAll(){
-    //     try{
-    //         Connection conn = DriverManager.getConnection("jdbc:sqlite:todo.db");
-    //         Statement stmt = conn.createStatement();
-
-    //         ResultSet rs = stmt.executeQuery("SELECT * FROM todo");
-
-    //         while(rs.next()){
-    //             System.out.println(rs.getString("task"));
-    //         }
-    //     } catch(SQLException e){
-    //         System.out.println(e.getMessage());
-    //     }
-    // }
     public void print() {
         for (int i = 1; i < todo.size(); i++) {
             System.out.println(String.join(",", todo.get(i)));
@@ -103,16 +73,6 @@ public class TodoList {
     public void remove(int id) {
         this.todo.remove(id);
         updateFile();
-
-        // try{
-        //     Connection conn = DriverManager.getConnection("jdbc:sqlite:todo.db");
-        //     PreparedStatement pstmt = conn.prepareStatement("DELETE FROM todo WHERE id = ?");
-
-        //     pstmt.setInt(1, id);
-        //     pstmt.executeUpdate();
-        // }catch(SQLException e){
-        //     System.out.println(e.getMessage());
-        // }
     }
 
     public boolean checkEventString(String value) {

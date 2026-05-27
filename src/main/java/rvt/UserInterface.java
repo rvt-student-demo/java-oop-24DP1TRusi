@@ -1,48 +1,60 @@
 package rvt;
 
-import java.util.Scanner;
-import java.awt.Dimension;
+// import java.util.Scanner;
+// import java.awt.Dimension;
 // import java.awt.event.ActionEvent;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+// import javax.swing.BoxLayout;
+// import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+// import javax.swing.JPanel;
+// import javax.swing.JScrollPane;
+// import javax.swing.JTable;
+// import javax.swing.JTextField;
 
 public class UserInterface {
-    private TodoList todo;
-    private Scanner scanner;
+    // private TodoList todo;
+    // private Scanner scanner;
+    private JFrame window;
 
-    public UserInterface(TodoList list, Scanner scan) {
-        this.todo = list;
-        this.scanner = scan;
+    public UserInterface() {
+        // this.todo = list;
+        // this.scanner = scan;
+        initialize();
     }
 
-    public void start() {
-        JFrame frame = new JFrame("Todo list.");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JTable table = todo.createTable();
-        JScrollPane scrollpane = new JScrollPane(table);
-        scrollpane.setPreferredSize(new Dimension(1000, 400));
+    private void initialize() {
+        window = new JFrame("Todo App");
+        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        window.setSize(500,400);
+        window.setResizable(false);
+        window.setLocationRelativeTo(null);
+    }
 
-        JPanel p = new JPanel();
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        JTextField field = new JTextField(10);
-        JButton button = new JButton("Add");
-        JButton remButton = new JButton("Remove");
-        p.add(scrollpane);
-        JPanel inputPanel = new JPanel();
-        inputPanel.add(field);
-        inputPanel.add(button);
-        inputPanel.add(remButton);
-        p.add(inputPanel);
-        frame.add(p);
+    public void show() {
+        window.setVisible(true);
+    }
+    // public void start() {
+    //     JFrame frame = new JFrame("Todo list.");
+    //     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //     JTable table = todo.createTable();
+    //     JScrollPane scrollpane = new JScrollPane(table);
+    //     scrollpane.setPreferredSize(new Dimension(1000, 400));
 
-        frame.setSize(400, 400);
-        frame.setVisible(true);
+    //     JPanel p = new JPanel();
+    //     p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+    //     JTextField field = new JTextField(10);
+    //     JButton button = new JButton("Add");
+    //     JButton remButton = new JButton("Remove");
+    //     p.add(scrollpane);
+    //     JPanel inputPanel = new JPanel();
+    //     inputPanel.add(field);
+    //     inputPanel.add(button);
+    //     inputPanel.add(remButton);
+    //     p.add(inputPanel);
+    //     frame.add(p);
+
+    //     frame.setSize(400, 400);
+    //     frame.setVisible(true);
 
         // while (true) {
         //     System.out.println("Command: ");
@@ -78,5 +90,5 @@ public class UserInterface {
         //         frame.setVisible(true);
         //     }
         // }
-    }
+    // }
 }
