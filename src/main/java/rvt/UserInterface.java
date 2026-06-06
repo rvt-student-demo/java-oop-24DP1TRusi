@@ -1,94 +1,90 @@
 package rvt;
 
-// import java.util.Scanner;
-// import java.awt.Dimension;
-// import java.awt.event.ActionEvent;
-// import javax.swing.BoxLayout;
-// import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-// import javax.swing.JPanel;
-// import javax.swing.JScrollPane;
-// import javax.swing.JTable;
-// import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
 
 public class UserInterface {
-    // private TodoList todo;
-    // private Scanner scanner;
+    private TodoList todo;
     private JFrame window;
 
-    public UserInterface() {
-        // this.todo = list;
-        // this.scanner = scan;
+    public UserInterface(TodoList list) {
+        this.todo = list;
         initialize();
     }
 
     private void initialize() {
         window = new JFrame("Todo App");
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        window.setSize(500,400);
-        window.setResizable(false);
+        window.setSize(500, 400);
+        window.setResizable(true);
         window.setLocationRelativeTo(null);
+        BorderLayout layout = new BorderLayout();
+        window.setLayout(layout);
+
+        JPanel panel = new JPanel();
+        JTable table = todo.createTable();
+        JScrollPane scrollPane = new JScrollPane(table);
+        panel.add(scrollPane);
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(2, 1));
+
+        // add
+        JPanel addPanel = new JPanel();
+        JTextField addTf = new JTextField(10);
+        JButton addBtn = new JButton("Add");
+
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                todo.add(addTf.getText());
+                table.setModel(todo.createTable().getModel());
+                table.revalidate();
+                table.repaint();
+                addTf.setText("");
+            }
+        });
+
+        // remove
+        JPanel removePanel = new JPanel();
+        JTextField removeTf = new JTextField(3);
+        JButton removeBtn = new JButton("Remove");
+
+        removeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    todo.remove(Integer.parseInt(removeTf.getText()));
+                    table.setModel(todo.createTable().getModel());
+                    table.revalidate();
+                    table.repaint();
+                    removeTf.setText("");
+                } catch (NumberFormatException ex) {
+                    System.out.println("Invalid ID: " + removeTf.getText());
+                }
+            }
+        });
+
+        addPanel.add(addTf);
+        addPanel.add(addBtn);
+        removePanel.add(removeTf);
+        removePanel.add(removeBtn);
+
+        inputPanel.add(addPanel);
+        inputPanel.add(removePanel);
+
+        window.add(panel, BorderLayout.CENTER);
+        window.add(inputPanel, BorderLayout.SOUTH);
     }
 
     public void show() {
         window.setVisible(true);
     }
-    // public void start() {
-    //     JFrame frame = new JFrame("Todo list.");
-    //     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //     JTable table = todo.createTable();
-    //     JScrollPane scrollpane = new JScrollPane(table);
-    //     scrollpane.setPreferredSize(new Dimension(1000, 400));
-
-    //     JPanel p = new JPanel();
-    //     p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-    //     JTextField field = new JTextField(10);
-    //     JButton button = new JButton("Add");
-    //     JButton remButton = new JButton("Remove");
-    //     p.add(scrollpane);
-    //     JPanel inputPanel = new JPanel();
-    //     inputPanel.add(field);
-    //     inputPanel.add(button);
-    //     inputPanel.add(remButton);
-    //     p.add(inputPanel);
-    //     frame.add(p);
-
-    //     frame.setSize(400, 400);
-    //     frame.setVisible(true);
-
-        // while (true) {
-        //     System.out.println("Command: ");
-        //     String teksts = scanner.nextLine();
-
-        //     if (teksts.equals("add")) {
-        //     System.out.println("To add: ");
-        //     this.todo.add(scanner.nextLine());
-            // button.addActionListener(new ActionListener() {
-            //     public void actionPerformed(ActionEvent e) {
-            //         System.out.println("Button clicked");
-            //     }
-        //     });
-
-        //     table = todo.createTable();
-        //     scrollpane = new JScrollPane(table);
-        //     p.add(scrollpane);
-        //     frame.add(p);
-        //     frame.setVisible(true);
-
-        //     if (teksts.equals("list")) {
-        //         todo.print();
-        //     }
-
-        //     if (teksts.equals("remove")) {
-        //         System.out.println("Which one is removed?");
-        //         int num = Integer.valueOf(scanner.nextLine());
-        //         todo.remove(num);
-
-        //         table = todo.createTable();
-        //         scrollpane = new JScrollPane(table);
-        //         frame.add(scrollpane);
-        //         frame.setVisible(true);
-        //     }
-        // }
-    // }
 }

@@ -1,6 +1,7 @@
 package rvt;
 
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,7 +36,7 @@ public class TodoDB {
             
     }
     public void add(String task) {
-        String sql = "INSERT INTO todo(task) VALUE(?)";
+        String sql = "INSERT INTO todo(task) VALUES(?)";
         try (
             Connection conn = connect();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -43,7 +44,7 @@ public class TodoDB {
             stmt.setString(1, task);
 
             int myRs = stmt.executeUpdate();
-            System.out.println(myRs + " record(s) inserted");
+            System.out.println(myRs + " row(s) inserted");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -52,7 +53,8 @@ public class TodoDB {
 
     }
 
-    public void findAll() {
+    public ArrayList<String[]> findAll() {
+        ArrayList<String[]> list = new ArrayList<>();
         String sql = "SELECT id, task FROM todo ORDER BY id";
         try (
             Connection conn = connect();
@@ -63,17 +65,18 @@ public class TodoDB {
             while (myRs.next()) {
                 int id = myRs.getInt("id");
                 String task = myRs.getString("task");
-
-                System.out.println(id + "|" + task);
+                list.add(new String[]{String.valueOf(id), task});
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return list;
     }
+    
 
     public void removeById(int id) {
-        String sql = "DELETE todo WHERE id = ?";
+        String sql = "DELETE FROM todo WHERE id = ?";
         try (
             Connection conn = connect();
             PreparedStatement stmt = conn.prepareStatement(sql);

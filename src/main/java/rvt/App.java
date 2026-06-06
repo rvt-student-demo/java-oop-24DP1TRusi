@@ -2,7 +2,8 @@ package rvt;
 
 public class App {
     public static void main(String[] args) {
-        UserInterface ui = new UserInterface();
+        TodoList list = new TodoList();
+        UserInterface ui = new UserInterface(list);
         ui.show();
         
     }

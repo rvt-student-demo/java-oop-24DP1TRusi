@@ -1,78 +1,36 @@
 package rvt;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.plaf.DimensionUIResource;
 
 public class TodoList {
     private ArrayList<String[]> todo;
-    private final String filePath = "data/todo.csv";
+    private TodoDB db;
 
     public TodoList() {
-        this.todo = new ArrayList<>();
-        loadFromFile();
-    }
-
-    private void loadFromFile() {
-        try (BufferedReader br = new BufferedReader(new FileReader("data/todo.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                this.todo.add(line.split(","));
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading file.");
-        }
-    }
-
-    private int getListId() {
-        return this.todo.size() - 1;
+        this.db = new TodoDB();
+        this.todo = db.findAll();
     }
 
     public void add(String task) {
         String input = task.trim();
 
-        if (checkEventString(input) == true) {
-            String toInput = (getListId() + 1) + "," + input;
-            this.todo.add(toInput.split(","));
-
-            try (BufferedWriter wr = new BufferedWriter(new FileWriter("data/todo.csv", true))) {
-                wr.write(getListId() + "," + input);
-                wr.newLine();
-            } catch (IOException ioe) {
-                System.out.println(ioe.getMessage());
-            }
+        if (!input.isEmpty() && checkEventString(input)) {
+            db.add(input);
+            update();
         } else {
-            System.out.println("Nederīga ievade!");
+            System.out.println("Invalid input: " + input);
         }
     }
 
-    public void print() {
-        for (int i = 1; i < todo.size(); i++) {
-            System.out.println(String.join(",", todo.get(i)));
-        }
-    }
-
-    private boolean updateFile() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/todo.csv"))) {
-            for (int i = 0; i < todo.size(); i++) {
-                String line = String.join(",", todo.get(i));
-                bw.write(line);
-                bw.newLine();
-            }
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+    public void update() {
+        todo = db.findAll();
     }
 
     public void remove(int id) {
-        this.todo.remove(id);
-        updateFile();
+        db.removeById(id);
+        update();
     }
 
     public boolean checkEventString(String value) {
@@ -85,16 +43,18 @@ public class TodoList {
     }
 
     public JTable createTable() {
-        String[][] data = new String[todo.size() - 1][];
-        for (int i = 1; i < todo.size(); i++) {
-            data[i - 1] = todo.get(i).clone();
+        if (todo == null || todo.isEmpty()) {
+            String[] columnName = { "ID", "Task" };
+            return new JTable(new Object[0][columnName.length], columnName);
+        }
+        String[][] data = new String[todo.size()][];
+        for (int i = 0; i < todo.size(); i++) {
+            data[i] = todo.get(i).clone();
         }
 
-        String[][] datas = data;
         String[] columnName = { "ID", "Task" };
-        JTable table = new JTable(datas, columnName);
-
-        table.setPreferredScrollableViewportSize(new DimensionUIResource(500, 50));
+        JTable table = new JTable(data, columnName);
+        table.setPreferredScrollableViewportSize(new DimensionUIResource(450, 50));
         table.setFillsViewportHeight(true);
         return table;
     }
